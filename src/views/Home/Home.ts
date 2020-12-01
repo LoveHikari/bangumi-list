@@ -1,8 +1,9 @@
+import Vue  from 'vue'
 import BgmTable from "@/components/bgmTable/BgmTable.vue";
 import Footer from "@/components/Footer.vue";
 import startApi from "@/common/data-source/requestApis/startApi";
 
-export default {
+export default Vue.extend({
     name: "Home",
     components: {
         BgmTable,
@@ -25,7 +26,7 @@ export default {
         startApi.getArchive().then((req: any) => {
             this.archive = req.data.data;
             this.maxYear = Object.keys(this.archive)[Object.keys(this.archive).length-1];
-            this.maxMonth =Object.keys(this.archive[this.maxYear])[Object.keys(this.archive[this.maxYear]).length-1];
+            this.maxMonth =Object.keys((this.archive as any)[this.maxYear])[Object.keys((this.archive as any)[this.maxYear]).length-1];
             this.currentYear = this.maxYear;
             this.currentMonth = this.maxMonth;
 
@@ -35,16 +36,16 @@ export default {
     methods: {
         getBangumi: function (year: string, month: string) {
             startApi.getBangumi(year, month).then((req: any) => {
-                this.$refs.bgmTable.allItems = req.data;
+                (this.$refs.bgmTable as any).allItems = req.data;
                 this.itemLength = Object.keys(req.data).length;
 
                 if (this.maxYear != year && this.maxMonth != month) {  // 不是当前季度
                     this.isMaxMonth = false;
-                    this.$refs.bgmTable.onTabChange("7", "全部");
+                    (this.$refs.bgmTable as any).onTabChange("7", "全部");
                 } else {  // 是当前季度
                     this.isMaxMonth = true;
                     const nowDay = new Date().getDay();
-                    this.$refs.bgmTable.onTabChange(nowDay, "");
+                    (this.$refs.bgmTable as any).onTabChange(nowDay, "");
                 }
             });
         },
@@ -65,7 +66,7 @@ export default {
         },
         onChange: function (e: any){
             const title = e.target.value;
-            this.$refs.bgmTable.onChange(title);
+            (this.$refs.bgmTable as any).onChange(title);
         }
     }
-};
+});

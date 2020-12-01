@@ -1,6 +1,7 @@
+import Vue  from 'vue'
 import startApi from "@/common/data-source/requestApis/startApi";
 
-export default {
+export default Vue.extend({
     name: "BgmList",
     data() {
       return {
@@ -8,7 +9,8 @@ export default {
       }
     },
     mounted: function (){
-        this.$parent.$parent.getBangumi(this.$parent.$parent.maxYear, this.$parent.$parent.maxMonth);
+        const p: any = this.$parent.$parent;
+        p.getBangumi(p.maxYear, p.maxMonth);
     },
     methods: {
         getWeek: function (weekDay: any){
@@ -53,4 +55,4 @@ export default {
             }
         }
     }
-}
+})

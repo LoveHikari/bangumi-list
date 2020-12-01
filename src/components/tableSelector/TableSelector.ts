@@ -1,4 +1,6 @@
-export default {
+import Vue from "vue";
+
+export default Vue.extend( {
     name: "TableSelector",
     data() {
         return {
@@ -23,8 +25,8 @@ export default {
                 tabName = e.target.getAttribute('data-name');
 
             this.className = tabKey;
-            this.$parent.onTabChange(tabKey, tabName);
+            (this.$parent as any).onTabChange(tabKey, tabName);
 
         }
     }
-}
+})
